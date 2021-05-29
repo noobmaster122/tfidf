@@ -36,3 +36,45 @@
     transform: rotate(360deg);
   }
 }
+
+.upload-file-btn-container:hover{
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: whitesmoke;
+}
+.upload-file-label{
+  /* i copy pasted material ui btn css, probabely should've used a real btn*/
+  border: 0;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 0;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 500;
+    line-height: 1rem;
+    border-radius: 4px;
+    letter-spacing: 0.02857em;
+}
+
+.innerGrid{
+  margin: auto !important;
+  margin-bottom: 20px !important;
+
+}
+.upload-file-btn-container{
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: white;
+  border-radius: 4px;
+  margin-top: 100px !important;
+  border: 3px solid olive;
+}
+
+.MuiOutlinedInput-notchedOutline{
+  border-color: transparent !important;
+}
+.MuiOutlinedInput-input:-webkit-autofill{
+  border-radius: 20px !important;
+}

@@ -7,13 +7,14 @@ export const tokenizeDocs = (corpus) => {
 var tokens = {}
 corpus.forEach((doc, index) => {
     const words = doc.split(/[\s_():.!?,;]+/);
+    console.log("these are words", words)
     words.forEach((word)=>{
         let tokenizdWord = normalizeWord(word);
         if(/\d+/.test(tokenizdWord) === false){
             if(tokens[tokenizdWord]){
                 // check if doc already exists
                 const termDocRealtion = tokens[tokenizdWord].df.find((docInedx)=> docInedx === index)
-                if(tokens[tokenizdWord].tf >= 1 && termDocRealtion === undefined){
+                if(tokens[tokenizdWord].tf >= 1){
                     tokens={
                         ...tokens,
                         [tokenizdWord] : {
@@ -25,7 +26,7 @@ corpus.forEach((doc, index) => {
                             ]
                         }
                     }
-                }else if(tokens[tokenizdWord].tf >= 1 && termDocRealtion){
+                }/*else if(tokens[tokenizdWord].tf >= 1 && termDocRealtion){
                     tokens={
                         ...tokens,
                         [tokenizdWord] : {
@@ -33,7 +34,7 @@ corpus.forEach((doc, index) => {
                             tf: tokens[tokenizdWord].tf+1
                         }
                     }
-                }
+                }*/
             }else{
                 tokens={
                     ...tokens,
@@ -46,5 +47,6 @@ corpus.forEach((doc, index) => {
         }
     })
 });
+console.log(tokens)
 return tokens;
 }
