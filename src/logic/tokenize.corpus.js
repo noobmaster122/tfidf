@@ -7,7 +7,7 @@ export const tokenizeDocs = (corpus) => {
 var tokens = {}
 corpus.forEach((doc, index) => {
     const words = doc.split(/[\s_():.!?,;]+/);
-    console.log("these are words", words)
+  //  console.log("these are words", words)
     words.forEach((word)=>{
         let tokenizdWord = normalizeWord(word);
         if(/\d+/.test(tokenizdWord) === false){

@@ -7,6 +7,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+
 
 
 
@@ -22,23 +24,25 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-export function DataTable(corpusSize, dataObj) {
+export function DataTable(corpusSize, dataObj, dataType) {
 
   const docHeaderTitles = (corpuslength)=>{
       let columns = []
       for(let i=0; i<corpuslength-1; i++){
           columns.push(
-              <TableCell key={i} > {`doc-${i+1}`}</TableCell>
+              <TableCell key={i} className={'table-header'}> {`doc-${i+1}`}</TableCell>
           );
       }
       columns.push(
-          <TableCell key={corpuslength-1}>{`query doc-${corpuslength}`}</TableCell>
+          <TableCell key={corpuslength}
+          className={'table-header'}
+          >{`query doc-${corpuslength}`}</TableCell>
       );
 
       return columns
   }
 
-  const tf_normalizedtf_idf = (corpuslength, obj, pos)=>{
+  const tf_normalizedtf_idf = (corpuslength, obj, arg)=>{
       let dataTable = []
       let rowData=[]
     //for(let i=0; i<corpuslength-1; i++){
@@ -51,9 +55,11 @@ export function DataTable(corpusSize, dataObj) {
                      <TableCell key={term}> {term} </TableCell>
                 {
                     (()=>{
+                        let dataContent = arg === 'tfidf' ? 'tfidf' : 'termsPerDocArr'
                         for(let j=0; j<corpuslength; j++){
+                            let nm = obj[term][dataContent][j];
                             innerRowData.push(
-                                <TableCell key={j}>{obj[term].termsPerDocArr[j] || 0}</TableCell>
+                                <TableCell key={j}>{nm?.toFixed(2) || 0}</TableCell>
                             )
                         }
                         return innerRowData;
@@ -77,7 +83,8 @@ export function DataTable(corpusSize, dataObj) {
       <Table  aria-label="simple table">
         <TableHead>
           <TableRow>
-              <TableCell key={'termsheaders'}>terms</TableCell>
+              <TableCell key={'termsheaders'}
+              className={'table-header'}>terms</TableCell>
             {
                 corpusSize ? docHeaderTitles(corpusSize) : 'nothing to show'
             }
@@ -85,9 +92,7 @@ export function DataTable(corpusSize, dataObj) {
         </TableHead>
         <TableBody>
             {
-               
-                   tf_normalizedtf_idf(corpusSize, dataObj)
-               
+                   tf_normalizedtf_idf(corpusSize, dataObj, dataType)
             }
         </TableBody>
       </Table>

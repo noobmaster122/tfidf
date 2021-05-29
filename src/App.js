@@ -26,7 +26,7 @@ function App() {
   const [msd, setmsd] = useState(null);
   const handleUpload = (e)=>{
     e.preventDefault()
-    console.log("am triggered")
+  //  console.log("am triggered")
     try{
       const inputedFiles = [...e.target.files]
       const promises = [];
@@ -46,12 +46,12 @@ function App() {
   }
 
   useEffect(() => {
-    console.log("this is the treated corpus", treatedCorpus)
+   // console.log("this is the treated corpus", treatedCorpus)
   }, [treatedCorpus]);
 
   const showList = (obj)=>{
     return Object.keys(obj).map((key, index)=>{
-      console.log(key + ":" + obj[key].tf)
+    //  console.log(key + ":" + obj[key].tf)
       return(
        <li key={index}> 
         {`${key} | tf : ${obj[key].tf} | df : ${obj[key].df.length}`}
@@ -61,7 +61,7 @@ function App() {
   }
 
   useEffect(() => {
-    console.log(corpus)
+   // console.log(corpus)
     /*if(corpus.length > 0){
       let tokenizedCorpus = tokenizeDocs(corpus)
        let postStopWordCleanUp = cleanup_corpus(tokenizedCorpus)
@@ -76,38 +76,56 @@ function App() {
   }, [corpus]);
 
   const initLookup = (corpusArr)=>{
+  //  console.log("before you init lookpu give me the size of the corpus", corpusArr.length)
     if(corpusArr.length > 0){
       var mostsimilardoc;
       let corpusdocs=[]
       let tokenizedCorpus = tokenizeDocs(corpusArr)
        let postStopWordCleanUp = cleanup_corpus(tokenizedCorpus)
       const wordObj = tfidfCalculator(postStopWordCleanUp, corpusArr.length)
-      console.log(wordObj)
-       setTreatedCorpus(wordObj)
+     // console.log(wordObj)
+      var stemmedsortedobj = stemCorpus(wordObj);
+      console.log("the length of the obj before stemming is ", Object.keys(wordObj).length )
+      console.log("the length of the obj after stemming is ", Object.keys(stemmedsortedobj).length )
+
+      setTreatedCorpus(sortedTreatedCorpus(stemmedsortedobj))
        for(let i=0; i<corpusArr.length-1; i++){
-        console.log(cosineSimilarity(wordObj, i, corpusArr.length-1))
+      //  console.log(cosineSimilarity(wordObj, i, corpusArr.length-1))
         corpusdocs.push(cosineSimilarity(wordObj, i, corpusArr.length-1))
-        console.log(corpusdocs)
+       // console.log(corpusdocs)
        }
 
        var x = Math.max(...corpusdocs)
        mostsimilardoc = corpusdocs.indexOf(x)
-       console.log("am the math max value" + Math.max(...corpusdocs)+ "am its index " + mostsimilardoc)
+//console.log("am the math max value" + Math.max(...corpusdocs)+ "am its index " + mostsimilardoc)
        setmsd(mostsimilardoc)
     }
   }
 
   useEffect(() => {
-    console.log("am updating bitch! ", msd)
+   // console.log("am updating bitch! ", msd)
 
   }, [msd]);
+
+  const sortedTreatedCorpus = (obj)=>{
+    let sortedobj={}
+
+    Object.keys(obj).sort().forEach((v)=>{
+      sortedobj={
+        ...sortedobj,
+        [v]: obj[v]
+    }
+    });
+
+    return sortedobj;
+
+  }
 
   return (
     <Grid xs={12} md={12} lg={12} container item
     >
     <Grid container item xs={12} md={12} lg={12}
     style={{
-      border: "1px solid green",
       display: "table"
     }}
     justify="center"
@@ -178,7 +196,7 @@ function App() {
               ...corpusQueryArr,
               querystring
             ]
-  
+            setcorpus(corpusQueryArr)
             console.log(corpusQueryArr)
             initLookup(corpusQueryArr)
           }
@@ -193,23 +211,56 @@ function App() {
     </Grid>
     <Grid container item xs={12} md={12} lg={12}
     style={{
-      border: "1px solid green",
-      height: "100vh",
-      display: "table"
+      padding: "50px"
+
     }}
     justify="center"
     alignItems="center">
+      <Grid xs={12} md={12} lg={12}>
+        <Typography variant="h3"
+        style={{
+          textAlign: "center",
+          marginBottom: "20px"
+        }}>
+          {msd !== null ?
+          <>
+           {`most similar doc to the query is doc-${msd+1}`}
+          </>  
+          : 
+          <>
+            nothing to show yet!
+          </>
+        }
+        </Typography>
 
+      </Grid>
+      <Grid xs={12} md={4} lg={5}
+      style={{
+        marginRight: "20px"
+      }}>
       {
         msd !== null ?
         <>
-          {DataTable(corpus.length, treatedCorpus)}
+          {DataTable(corpus.length, treatedCorpus, "tfidf")}
         </>
         :
         <>
           nothing to show yet !
         </>
       }
+      </Grid>
+      <Grid xs={12} md={4} lg={5}>
+      {
+        msd !== null ?
+        <>
+          {DataTable(corpus.length, treatedCorpus, "termsPerDocArr")}
+        </>
+        :
+        <>
+          nothing to show yet !
+        </>
+      }
+      </Grid>
 
     </Grid>
     </Grid>

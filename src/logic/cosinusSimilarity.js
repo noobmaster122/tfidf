@@ -20,12 +20,12 @@ export function cosineSimilarity(tfIdfObj, docIndex,queryIndex){
     var docMag = 0;
     var queryMag = 0;
     Object.keys(tfIdfObj)?.map((key)=>{
-        console.log(tfIdfObj[key].tfidf[docIndex] + "*" + tfIdfObj[key].tfidf[queryIndex])
+      //  console.log(tfIdfObj[key].tfidf[docIndex] + "*" + tfIdfObj[key].tfidf[queryIndex])
         dotprod += (tfIdfObj[key].tfidf[docIndex] || 0) * (tfIdfObj[key].tfidf[queryIndex] || 0)
         docMag += Math.pow((tfIdfObj[key].tfidf[docIndex] || 0), 2);
         queryMag += Math.pow((tfIdfObj[key].tfidf[queryIndex] || 0), 2);
     })
-    console.log("this is the dot prod sum" +  dotprod + "docmag : " + docMag + "query mag : " + queryMag)
+   // console.log("this is the dot prod sum" +  dotprod + "docmag : " + docMag + "query mag : " + queryMag)
     return dotprod / Math.sqrt(docMag * queryMag);
 }
 

@@ -78,3 +78,7 @@
 .MuiOutlinedInput-input:-webkit-autofill{
   border-radius: 20px !important;
 }
+.table-header{
+  background-color: olive;
+  color: whitesmoke !important;
+}

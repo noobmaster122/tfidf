@@ -50,11 +50,11 @@ const getUnique = (redundentArr) => {
         ...termsperdoc,
         [redundentArr[i]]: 1
       }
-      console.log("term per doc value after update", termsperdoc[redundentArr[i]])
+     // console.log("term per doc value after update", termsperdoc[redundentArr[i]])
 
     } else {
-      console.log("am inside here")
-      console.log("term per doc value before update", termsperdoc[redundentArr[i]])
+     /* console.log("am inside here")
+      console.log("term per doc value before update", termsperdoc[redundentArr[i]])*/
 
       termsperdoc = {
         ...termsperdoc,
@@ -77,7 +77,7 @@ const getUnique = (redundentArr) => {
 const normalizedTfIdf = (normalizedtf, idf)=>{
   let normalizedTfIdfObj = {}
   Object.keys(normalizedtf)?.map((key)=>{
-    console.log("----normalized tf : " + normalizedtf[key] * idf)
+  //  console.log("----normalized tf : " + normalizedtf[key] * idf)
     normalizedTfIdfObj = {
       ...normalizedTfIdfObj,
       [key]: normalizedtf[key] * idf
@@ -87,7 +87,7 @@ const normalizedTfIdf = (normalizedtf, idf)=>{
 }
 
 export const tfidfCalculator = (obj, corpusSize) => {
-  console.log(corpusSize)
+ // console.log(corpusSize)
   let wordObj = {}
   Object.keys(obj).map(function (key, index) {
 
